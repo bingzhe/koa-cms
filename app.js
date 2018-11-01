@@ -2,12 +2,16 @@ const koa = require('koa');
 const router = require('koa-router')();
 const views = require('koa-views');
 const common = require('./module/common.js');
-const bodyParser = require('koa-bodyparser')
+const bodyParser = require('koa-bodyparser');
+const static = require('koa-static');
 
 const app = new koa();
 
 app.use(views('views', { map: { html: 'ejs' } }));
 app.use(bodyParser());
+
+//静态资源
+app.use(static(__dirname + '/static'));
 
 router.get('/', async (ctx, next) => {
     await ctx.render('index');
