@@ -4,33 +4,45 @@ const views = require('koa-views');
 const common = require('./module/common.js');
 const bodyParser = require('koa-bodyparser');
 const static = require('koa-static');
+const render = require('koa-art-template');
+const path = require('path');
 
 const app = new koa();
 
-app.use(views('views', { map: { html: 'ejs' } }));
+render(app, {
+    root: path.join(__dirname, 'views'),
+    extname: '.html',
+    debug: process.env.NODE_ENV !== 'production'
+});
+
 app.use(bodyParser());
 
-//静态资源
-app.use(static(__dirname + '/static'));
 
 router.get('/', async (ctx, next) => {
-    await ctx.render('index');
+    ctx.cookies.set('userinfo', 'zhangsan', {
+        maxAge: 60 * 1000 * 60
+    })
+
+    let list = {
+        name: 'zhangsan'
+    }
+    await ctx.render('index', { list });
 });
 
-router.get('/add', async (ctx) => {
-    let title = "hello koa2";
-    await ctx.render('index', { title });
+router.get('/news', async (ctx) => {
+    var userinfo = ctx.cookies.get('userinfo');
+    console.log(userinfo);
+    let list = {
+        name: 'zhangsan'
+    }
+    await ctx.render('news', {
+        list
+    });
 });
 
-
-router.post('/doAdd', async (ctx) => {
-    console.log(ctx.request.body);
-    ctx.body = ctx.request.body;
-});
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-
 
 app.listen(3000, () => {
     console.log("Start at port 3000");
