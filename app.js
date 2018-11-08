@@ -7,6 +7,7 @@ const static = require('koa-static');
 const render = require('koa-art-template');
 const path = require('path');
 const session = require('koa-session');
+const DB = require("./module/db.js");
 
 const app = new koa();
 
@@ -46,13 +47,17 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/login', async (ctx, next) => {
-    ctx.session.userinfo = "张三";
-    ctx.body = "登录成功";
+    // ctx.session.userinfo = "张三";
+    // ctx.body = "登录成功";
+    let result = await DB.find('user', {});
+    ctx.body = result;
+
 });
 
 router.get('/news', async (ctx) => {
     var userinfo = ctx.cookies.get('userinfo');
     console.log(userinfo);
+
     let list = {
         name: 'zhangsan'
     }
