@@ -1,5 +1,4 @@
 // BD库
-
 const MongoClient = require('mongodb').MongoClient;
 const Config = require('./config.js');
 
@@ -54,6 +53,52 @@ class DB {
             });
         });
     }
+
+    insert(collectionName, json) {
+        return new Promise((resolve, reject) => {
+            this.connect().then(db => {
+                db.collection(collectionName).insertOne(json, (err, result) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    resolve(result);
+                });
+            });
+        });
+    }
+
+
+    update(collectionName, json1, json2) {
+        return new Promise((resolve, reject) => {
+            this.connect().then(db => {
+                db.collection(collectionName).updateOne(json1, { $set: json2 }, (err, result) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(result);
+                });
+            });
+        });
+    }
+
+    remove(collectionName, json) {
+        return new Promise((resolve, reject) => {
+            this.connect().then(db => {
+                db.collection(collectionName).removeOne(json, (err, result) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    resolve(result);
+                });
+            });
+        });
+    }
+
 }
 
 

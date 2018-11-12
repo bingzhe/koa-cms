@@ -66,6 +66,22 @@ router.get('/news', async (ctx) => {
     });
 });
 
+router.get('/add', async (ctx) => {
+    let data = await DB.insert('user', { 'username': "赵柳", 'sex': '女', 'age': 29 });
+    console.log(data);
+    ctx.body = "add";
+});
+
+router.get('/edit', async (ctx) => {
+    let data = await DB.update('user', { 'username': '赵柳' }, { 'age': 32 });
+    console.log(data);
+    ctx.body = "edit";
+});
+router.get('/delete', async (ctx) => {
+    let data = await DB.remove('user', { 'username': '赵柳' });
+    console.log(data);
+    ctx.body = "edit";
+});
 
 app.use(router.routes());
 app.use(router.allowedMethods());
