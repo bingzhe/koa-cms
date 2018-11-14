@@ -3,8 +3,27 @@ const router = require('koa-router')();
 const render = require('koa-art-template');
 const path = require('path');
 const static = require('koa-static');
+const session = require('koa-session');
+const bodyParser = require('koa-bodyparser');
 
 const app = new koa();
+
+//配置session
+app.keys = ['some secret hurr'];
+const CONFIG = {
+    key: 'koa:sess',
+    maxAge: 864000,
+    autoCommit: true,
+    overwrite: true,
+    httpOnly: true,
+    signed: true,
+    rolling: true,//每次请求都重新设置
+    renew: false,
+};
+app.use(session(CONFIG, app));
+
+//配置post提交数据的中间件
+app.use(bodyParser());
 
 //配置模板
 render(app, {
