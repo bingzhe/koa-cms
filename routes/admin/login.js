@@ -30,21 +30,16 @@ router.post('/doLogin', async (ctx) => {
         let result = await DB.find('admin', { 'username': username, 'password': tools.md5(password) });
 
         if (result.length > 0) {
-            console.log("成功");
-
             ctx.session.userinfo = result[0];
             ctx.redirect(ctx.state.__HOST__ + '/admin');
 
         } else {
-            console.log("失败");
             ctx.render('admin/error', {
                 message: '用户名或者密码错误',
                 redirect: ctx.state.__HOST__ + '/admin/login'
             })
         }
     } else {
-        console.log('验证码失败');
-
         ctx.render('admin/error', {
             message: '验证码错误',
             redirect: ctx.state.__HOST__ + '/admin/login'
@@ -58,12 +53,13 @@ router.get('/code', async (ctx) => {
     let captcha = svgCaptcha.create({
         size: 4,
         fontSize: 50,
+        noise: 3,
         width: 120,
         height: 34,
         background: "#cc9966"
     });
 
-    //数字验证码
+    // 数字验证码
     // let captcha = svgCaptcha.createMathExpr({
     //     size: 4,
     //     fontSize: 50,
@@ -76,8 +72,13 @@ router.get('/code', async (ctx) => {
     ctx.session.code = captcha.text;
     //设置响应头
     ctx.response.type = "image/svg+xml";
-
     ctx.body = captcha.data;
 });
 
+
+//退出登陆
+router.get('/loginOut', async (ctx) => {
+    ctx.session.userinfo = null;
+    ctx.redirect(ctx.state.__HOST__ + '/admin/login');
+});
 module.exports = router.routes();

@@ -9,6 +9,11 @@ router.use(async (ctx, next) => {
     //模板引擎配置全局变量
     ctx.state.__HOST__ = "http://" + ctx.request.header.host;
 
+    //全局信息
+    ctx.state.G = {
+        userinfo: ctx.session.userinfo
+    };
+
     let pathname = url.parse(ctx.request.url).pathname;
     // 判断是否登录
     if (ctx.session.userinfo) {
