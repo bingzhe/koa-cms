@@ -99,7 +99,7 @@
 
 							<tbody>
 								{{ each list }}
-								<tr class="" >
+								<tr class="">
 									<td class="center">
 										<label>
 											<input type="checkbox" class="ace">
@@ -110,8 +110,8 @@
 									<td>
 										{{ $value.username }}
 									</td>
-						
-									<td>时间</td>
+
+									<td>{{ $value.last_time | dateFormat}}</td>
 
 									<td class="hidden-480">
 										<button class="btn btn-xs btn-success">

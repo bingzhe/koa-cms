@@ -1,5 +1,8 @@
 // BD库
+const MongoDB=require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = MongoDB.ObjectID;
+
 const Config = require('./config.js');
 
 // const url = 'mongodb://localhost:27017';
@@ -112,6 +115,10 @@ class DB {
                 });
             });
         });
+    }
+
+    getObjectId(id) {
+        return new ObjectID(id);
     }
 
 }

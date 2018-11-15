@@ -5,6 +5,7 @@ const path = require('path');
 const static = require('koa-static');
 const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
+const sd = require('silly-datetime');
 
 const app = new koa();
 
@@ -29,7 +30,11 @@ app.use(bodyParser());
 render(app, {
     root: path.join(__dirname, 'views'),
     extname: '.html',
-    debug: process.env.NODE_ENV !== 'production'
+    debug: process.env.NODE_ENV !== 'production',
+    dateFormat: dateFormat = function (value) {
+        return sd.format(new
+            Date(value), 'YYYY-MM-DD HH:mm');
+    } /*扩展模板里面的方法*/
 });
 
 //配置静态资源的中间件

@@ -30,7 +30,15 @@ router.post('/doLogin', async (ctx) => {
         let result = await DB.find('admin', { 'username': username, 'password': tools.md5(password) });
 
         if (result.length > 0) {
+            //登录成功
+
             ctx.session.userinfo = result[0];
+
+            //更新用户表
+            await DB.update('admin', { _id: DB.getObjectId(result[0]._id) }, {
+                last_time: new Date()
+            })
+
             ctx.redirect(ctx.state.__HOST__ + '/admin');
 
         } else {
