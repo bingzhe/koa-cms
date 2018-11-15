@@ -12,7 +12,7 @@ const app = new koa();
 app.keys = ['some secret hurr'];
 const CONFIG = {
     key: 'koa:sess',
-    maxAge: 864000,
+    maxAge: 86400000,
     autoCommit: true,
     overwrite: true,
     httpOnly: true,
