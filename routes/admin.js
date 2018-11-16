@@ -33,13 +33,14 @@ router.use(async (ctx, next) => {
 
 });
 
-router.get('/', async (ctx) => {
-    await ctx.render('admin/index');
-});
 
+const index = require('./admin/index.js');
 const login = require('./admin/login.js');
 const user = require('./admin/user.js');
 const manage = require('./admin/manage.js');
+
+//后台首页
+router.use(index);
 
 router.use('/login', login);
 router.use('/user', user);

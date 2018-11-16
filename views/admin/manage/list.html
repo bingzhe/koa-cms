@@ -93,7 +93,7 @@
 									</th>
 									<th class="center">状态</th>
 
-									<th width="80px;" class="center">操作</th>
+									<th width="100px;" class="center">操作</th>
 								</tr>
 							</thead>
 
@@ -114,22 +114,26 @@
 									<td>{{ $value.last_time | dateFormat}}</td>
 
 									<td class="hidden-480">
-										<button class="btn btn-xs btn-success">
-											<i class="icon-ok bigger-120 success"></i>
-										</button>
+
+										{{if $value.status === 1}}
+										<img src="{{__HOST__}}/admin/images/yes.gif" onclick="app.toggle(this,'admin','status','{{@$value._id}}')" /> {{ else }}
+										<img src="{{__HOST__}}/admin/images/no.gif" onclick="app.toggle(this,'admin','status','{{@$value._id}}')" /> {{ /if}}
 									</td>
 
 									<td>
 										<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
 
-
-											<button class="btn btn-xs btn-info">
-												<i class="icon-edit bigger-120"></i>
-											</button>
+											<a href="{{__HOST__}}/admin/manage/edit?id={{@$value._id}}">
+												<button class="btn btn-xs btn-info">
+													<i class="icon-edit bigger-120"></i>
+												</button>
+											</a>
 											&nbsp;
-											<button class="btn btn-xs btn-danger">
-												<i class="icon-trash bigger-120"></i>
-											</button>
+											<a href="{{__HOST__}}/admin/manage/delete?id={{@$value._id}}">
+												<button class="btn btn-xs btn-danger">
+													<i class="icon-trash bigger-120"></i>
+												</button>
+											</a>
 
 										</div>
 

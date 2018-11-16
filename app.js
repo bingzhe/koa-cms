@@ -6,6 +6,7 @@ const static = require('koa-static');
 const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
 const sd = require('silly-datetime');
+const jsonp = require('koa-jsonp');
 
 const app = new koa();
 
@@ -25,6 +26,9 @@ app.use(session(CONFIG, app));
 
 //配置post提交数据的中间件
 app.use(bodyParser());
+
+//配置jsonp中间件
+app.use(jsonp());
 
 //配置模板
 render(app, {
