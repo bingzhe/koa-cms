@@ -5,6 +5,7 @@ router.get('/', async (ctx) => {
     await ctx.render('admin/index');
 });
 
+//更改
 router.get('/changeStatus', async (ctx) => {
 
     let collectionName = ctx.query.collectionName;
@@ -38,5 +39,22 @@ router.get('/changeStatus', async (ctx) => {
         };
     }
 });
+
+//删除
+router.get('/remove', async (ctx) => {
+    try {
+        let collectionName = ctx.query.collectionName;
+        let id = ctx.query.id;
+
+        let result = DB.remove(collectionName, { _id: DB.getObjectId(id) });
+
+        //跳回上一页
+        ctx.redirect(ctx.state.G.prevPage);
+    } catch (error) {
+        ctx.redirect(ctx.state.G.prevPage);
+
+    }
+});
+
 
 module.exports = router.routes();

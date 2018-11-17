@@ -12,7 +12,8 @@ router.use(async (ctx, next) => {
     //全局信息
     ctx.state.G = {
         url: splitUrl,
-        userinfo: ctx.session.userinfo
+        userinfo: ctx.session.userinfo,
+        prevPage: ctx.request.headers['referer']
     };
 
     // 判断是否登录
