@@ -6,7 +6,6 @@ router.get('/', async (ctx) => {
 });
 
 router.get('/changeStatus', async (ctx) => {
-    console.log(ctx.query);
 
     let collectionName = ctx.query.collectionName;
     let attr = ctx.query.attr;
@@ -27,8 +26,6 @@ router.get('/changeStatus', async (ctx) => {
         }
 
         let updateResult = await DB.update(collectionName, { _id: DB.getObjectId(id) }, json);
-
-        console.log('updateResult', updateResult);
 
         if (updateResult) {
             ctx.body = { ret: 0, data: {} };

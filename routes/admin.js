@@ -38,6 +38,7 @@ const index = require('./admin/index.js');
 const login = require('./admin/login.js');
 const user = require('./admin/user.js');
 const manage = require('./admin/manage.js');
+const articlecate = require('./admin/articlecate.js');
 
 //后台首页
 router.use(index);
@@ -45,5 +46,6 @@ router.use(index);
 router.use('/login', login);
 router.use('/user', user);
 router.use('/manage', manage);
+router.use('/articlecate', articlecate);
 
 module.exports = router.routes();
