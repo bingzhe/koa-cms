@@ -1,5 +1,5 @@
 // BD库
-const MongoDB=require('mongodb');
+const MongoDB = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = MongoDB.ObjectID;
 
@@ -43,14 +43,52 @@ class DB {
     /**
      * 查找
      * @param {String} collectionName 表名
-     * @param {*} json 查找条件
+     * 
+     * DB.find('user', {}); 返回所有数据
+     * DB.find('user', {}, {title:1}); 返回所有数据，只返回一列
+     * DB.find('user', {}, {title:1}, {page:2, pageSize:20}); 返回第二页的数据
+     * 
      */
-    find(collectionName, json) {
+    find(collectionName, json1, json2, json3) {
+
+        let argumentsNum = arguments.length;
+        let attr = {};
+        let slipNum = 0;
+        let pageSize = 0;
+
+        switch (argumentsNum) {
+            case 2:
+                attr = {};
+                slipNum = 0;
+                pageSize = 0;
+                break;
+            case 3:
+                attr = json2;
+                slipNum = 0;
+                pageSize = 0;
+                break;
+            case 4:
+                let page = json3.page || 1;
+
+                attr = json2;
+                pageSize = json3.pageSize || 20;
+                slipNum = (page - 1) * pageSize;
+                break;
+            default:
+                console.log("传入参数错误");
+                break;
+        }
+
+
         return new Promise((resolve, reject) => {
             this.connect().then(db => {
-                const collection = db.collection(collectionName);
 
-                collection.find(json).toArray((err, docs) => {
+                let result = db.collection(collectionName)
+                    .find(json1, { fields: attr })
+                    .skip(slipNum)
+                    .limit(pageSize);
+
+                result.toArray((err, docs) => {
                     if (err) {
                         reject(err);
                         return
@@ -61,6 +99,8 @@ class DB {
             });
         });
     }
+
+
 
     /**
      * 插入数据

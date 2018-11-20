@@ -61,6 +61,7 @@ router.get('/code', async (ctx) => {
     let captcha = svgCaptcha.create({
         size: 4,
         fontSize: 50,
+        ignoreChars: '0o1il',
         noise: 3,
         width: 120,
         height: 34,
