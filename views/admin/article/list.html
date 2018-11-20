@@ -93,7 +93,7 @@
 
                             <tbody>
 
-                            {{each list}}
+                                {{each list}}
                                 <tr class="">
 
                                     <td>
@@ -107,31 +107,26 @@
                                         {{$value.last_time | dateFormat}}
                                     </td>
                                     <td>
-                                        <input type="text" value="{{$value.sort || 0}}" class="sort_input" onblur="app.changeSort(this,'article','{{@$value._id}}')"/>
+                                        <input type="text" value="{{$value.sort || 0}}" class="sort_input" onblur="app.changeSort(this,'article','{{@$value._id}}')"
+                                        />
                                     </td>
 
                                     <td>
                                         {{if $value.is_host==1}}
-                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','is_host','{{@$value._id}}')" />
-                                        {{else}}
-                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','is_host','{{@$value._id}}')" />
-                                        {{/if}}
+                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','is_host','{{@$value._id}}')" /> {{else}}
+                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','is_host','{{@$value._id}}')" /> {{/if}}
                                     </td>
 
                                     <td>
                                         {{if $value.is_best==1}}
-                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','is_best','{{@$value._id}}')" />
-                                        {{else}}
-                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','is_best','{{@$value._id}}')" />
-                                        {{/if}}
+                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','is_best','{{@$value._id}}')" /> {{else}}
+                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','is_best','{{@$value._id}}')" /> {{/if}}
                                     </td>
 
                                     <td>
                                         {{if $value.status==1}}
-                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','status','{{@$value._id}}')" />
-                                        {{else}}
-                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','status','{{@$value._id}}')" />
-                                        {{/if}}
+                                        <img src="{{__ROOT__}}/admin/images/yes.gif" onclick="app.toggle(this,'article','status','{{@$value._id}}')" /> {{else}}
+                                        <img src="{{__ROOT__}}/admin/images/no.gif" onclick="app.toggle(this,'article','status','{{@$value._id}}')" /> {{/if}}
                                     </td>
                                     <td>
                                         <a href="{{__ROOT__}}/admin/article/edit?id={{@$value._id}}">
@@ -153,6 +148,8 @@
 
                             </tbody>
                         </table>
+
+                        <div id="page" class="pagination"></div>
                     </div>
 
                 </div>
@@ -170,7 +167,21 @@
 
 
     {{include "admin/public/footer"}}
+    <script src="{{__HOST__}}/admin/js/jqPaginator.js"></script>
 
+    <script>
+        $('#page').jqPaginator({
+            totalPages: {{ totalPages }},
+            visiblePages: 10,
+            currentPage: {{ page }},
+            onPageChange: function (num, type) {
+                console.log(num, type)
+                if (type === "change") {
+                    location.href = "{{__HOST__}}/admin/article?page=" + num
+                }
+            }
+        });
+    </script>
     <script type="text/javascript">
         jQuery(function ($) {
 

@@ -3,11 +3,21 @@ const DB = require('../../module/db.js');
 const tools = require('../../module/tools.js');
 
 router.get('/', async (ctx) => {
-    let result = await DB.find('article', {});
+    let page = ctx.query.page || 1;
+    let pageSize = ctx.query.pageSize || 20;
 
-    let list = tools.cateToList(result);
+    let result = await DB.find('article', {}, {}, {
+        page: 1,
+        pageSize: 20,
+    });
+    let count = await DB.count('article', {});
 
-    await ctx.render('admin/article/list', { list: list });
+    await ctx.render('admin/article/list', {
+        list: result,
+        page: page,
+        // totalPages: Math.ceil(count / pageSize)
+        totalPages: 100
+    });
 });
 
 router.get('/add', async (ctx) => {

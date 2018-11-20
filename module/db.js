@@ -161,6 +161,24 @@ class DB {
         return new ObjectID(id);
     }
 
+    /**
+     * 统计数量的方法
+     * @param {*} collectionName 
+     * @param {*} json 
+     */
+    count(collectionName, json) {
+        return new Promise((resolve, reject) => {
+            this.connect().then((db) => {
+
+                let result = db.collection(collectionName).count(json);
+                result.then(function (count) {
+                    resolve(count);
+                });
+            })
+        })
+
+    }
+
 }
 
 
