@@ -51,4 +51,12 @@ router.use('/manage', manage);
 router.use('/articlecate', articlecate);
 router.use('/article', article);
 
+
+const ueditor = require('koa2-ueditor');
+//注意上传图片的路由   ueditor.config.js配置图片post的地址
+router.all('/editor/controller', ueditor(['public', {
+    "imageAllowFiles": [".png", ".jpg", ".jpeg"],
+    "imagePathFormat": "/upload/ueditor/image/{yyyy}{mm}{dd}/{filename}"  // 保存为原文件名
+}]))
+
 module.exports = router.routes();
