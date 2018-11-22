@@ -35,19 +35,39 @@ router.get('/', async (ctx) => {
 });
 
 router.get('/add', async (ctx) => {
-    //获取一级分类
-    // let result = await DB.find('article', { 'pid': '0' });
-    // await ctx.render('admin/article/add', { catelist: result });
+    //查询分类数据
+    let catelist = await DB.find('articlecate', {});
 
-    await ctx.render('admin/article/add');
+    await ctx.render('admin/article/add', {
+        catelist: tools.cateToList(catelist)
+    });
 
 });
 
-router.post('/doAdd', upload.single('pic'), async (ctx) => {
-    ctx.body = {
-        filename: ctx.req.file.filename,
-        body: ctx.req.body
+router.post('/doAdd', upload.single('img_url'), async (ctx) => {
+
+    let pid = ctx.req.body.pid;
+    let catename = ctx.req.body.catename.trim();
+    let title = ctx.req.body.title.trim();
+    let author = ctx.req.body.author.trim();
+    let pic = ctx.req.body.author;
+    let status = ctx.req.body.status;
+    let is_best = ctx.req.body.is_best;
+    let is_hot = ctx.req.body.is_hot;
+    let is_new = ctx.req.body.is_new;
+    let keywords = ctx.req.body.keywords;
+    let description = ctx.req.body.description || '';
+    let content = ctx.req.body.content || '';
+    let img_url = ctx.req.file ? ctx.req.file.path : '';
+
+    let json = {
+        pid, catename, title, author, status, is_best, is_hot, is_new, keywords, description, content, img_url
     }
+
+    var result = DB.insert('article', json);
+
+    //跳转
+    ctx.redirect(ctx.state.__HOST__ + '/admin/article');
 });
 
 module.exports = router.routes();
