@@ -57,7 +57,7 @@ router.post('/doAdd', upload.single('img_url'), async (ctx) => {
     let keywords = ctx.req.body.keywords;
     let description = ctx.req.body.description || '';
     let content = ctx.req.body.content || '';
-    let img_url = ctx.req.file ? ctx.req.file.path : '';
+    let img_url = ctx.req.file ? ctx.req.file.path.substr(7) : '';
 
     let json = {
         pid, catename, title, author, status, is_best, is_hot, is_new, keywords, description, content, img_url
@@ -76,7 +76,6 @@ router.get('/edit', async (ctx) => {
     let catelist = await DB.find('articlecate', {});
     let articlelist = await DB.find('article', { '_id': DB.getObjectId(id) });
 
-    console.log(ctx.state.G.prevPage);
     await ctx.render('admin/article/edit', {
         catelist: tools.cateToList(catelist),
         list: articlelist[0],
@@ -101,7 +100,7 @@ router.post('/doEdit', upload.single('img_url'), async (ctx) => {
     let keywords = ctx.req.body.keywords;
     let description = ctx.req.body.description || '';
     let content = ctx.req.body.content || '';
-    let img_url = ctx.req.file ? ctx.req.file.path : '';
+    let img_url = ctx.req.file ? ctx.req.file.path.substr(7) : '';
 
     let json = null;
 

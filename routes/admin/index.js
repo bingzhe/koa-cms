@@ -40,6 +40,31 @@ router.get('/changeStatus', async (ctx) => {
     }
 });
 
+//改变排序
+router.get('/changeSort', async (ctx) => {
+    let collectionName = ctx.query.collectionName;
+    let sortValue = ctx.query.sortValue;
+    let id = ctx.query.id;
+
+    let result = await DB.find(collectionName, { _id: DB.getObjectId(id) });
+
+    if (result.length > 0) {
+        let json = { sort: sortValue };
+
+        let updateResult = await DB.update(collectionName, { _id: DB.getObjectId(id) }, json);
+
+        if (updateResult) {
+            ctx.body = { ret: 0, data: {} };
+        } else {
+            ctx.body = { ret: -1, data: {} };
+        }
+    } else {
+        ctx.body = {
+            ret: - 1, data: {}
+        };
+    }
+
+});
 //删除
 router.get('/remove', async (ctx) => {
     try {
