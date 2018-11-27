@@ -71,6 +71,7 @@ router.get('/remove', async (ctx) => {
         let collectionName = ctx.query.collectionName;
         let id = ctx.query.id;
 
+        console.log(collectionName, id);
         let result = DB.remove(collectionName, { _id: DB.getObjectId(id) });
 
         //跳回上一页

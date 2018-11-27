@@ -4,6 +4,9 @@ let tools = {
     md5(str) {
         return md5(str);
     },
+    getTime() {
+        return new Date();
+    },
     //分类结构转换
     cateToList(data) {
         let resultList = [];

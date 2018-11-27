@@ -58,9 +58,10 @@ router.post('/doAdd', upload.single('img_url'), async (ctx) => {
     let description = ctx.req.body.description || '';
     let content = ctx.req.body.content || '';
     let img_url = ctx.req.file ? ctx.req.file.path.substr(7) : '';
+    let add_time = tools.getTime();
 
     let json = {
-        pid, catename, title, author, status, is_best, is_hot, is_new, keywords, description, content, img_url
+        pid, catename, title, author, status, is_best, is_hot, is_new, keywords, description, content, img_url, add_time
     }
 
     var result = DB.insert('article', json);
