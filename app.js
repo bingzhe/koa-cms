@@ -42,6 +42,7 @@ render(app, {
 });
 
 //配置静态资源的中间件
+app.use(static('.'));
 app.use(static(__dirname + '/public'));
 
 //引入模块
