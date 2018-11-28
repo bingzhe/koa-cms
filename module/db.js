@@ -46,7 +46,7 @@ class DB {
      * 
      * DB.find('user', {}); 返回所有数据
      * DB.find('user', {}, {title:1}); 返回所有数据，只返回一列
-     * DB.find('user', {}, {title:1}, {page:2, pageSize:20}); 返回第二页的数据
+     * DB.find('user', {}, {title:1}, {page:2, pageSize:20,sort:{add_time:-1}); 返回第二页的数据
      * 
      */
     find(collectionName, json1, json2, json3) {
@@ -55,6 +55,7 @@ class DB {
         let attr = {};
         let slipNum = 0;
         let pageSize = 0;
+        let sortJson = {};
 
         switch (argumentsNum) {
             case 2:
@@ -73,6 +74,11 @@ class DB {
                 attr = json2;
                 pageSize = json3.pageSize || 20;
                 slipNum = (page - 1) * pageSize;
+
+                if (json3.sortJson) {
+                    sortJson = json3.sortJson;
+                }
+
                 break;
             default:
                 console.log("传入参数错误");
@@ -86,7 +92,8 @@ class DB {
                 let result = db.collection(collectionName)
                     .find(json1, { fields: attr })
                     .skip(slipNum)
-                    .limit(pageSize);
+                    .limit(pageSize)
+                    .sort(sortJson);
 
                 result.toArray((err, docs) => {
                     if (err) {
