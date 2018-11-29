@@ -41,7 +41,7 @@ const user = require('./admin/user.js');
 const manage = require('./admin/manage.js');
 const articlecate = require('./admin/articlecate.js');
 const article = require('./admin/article.js');
-
+const focus = require('./admin/focus.js');
 //后台首页
 router.use(index);
 
@@ -50,7 +50,7 @@ router.use('/user', user);
 router.use('/manage', manage);
 router.use('/articlecate', articlecate);
 router.use('/article', article);
-
+router.use('/focus', focus);
 
 const ueditor = require('koa2-ueditor');
 //注意上传图片的路由   ueditor.config.js配置图片post的地址
