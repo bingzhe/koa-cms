@@ -116,7 +116,7 @@
                                     </td>
 
                                     <td class="hidden-480">
-                                        {{if $value.status === 1}}
+                                        {{if $value.status == 1}}
                                         <img src="{{__HOST__}}/admin/images/yes.gif" onclick="app.toggle(this,'focus','status','{{@$value._id}}')" /> {{ else }}
                                         <img src="{{__HOST__}}/admin/images/no.gif" onclick="app.toggle(this,'focus','status','{{@$value._id}}')" /> {{ /if}}
                                     </td>
