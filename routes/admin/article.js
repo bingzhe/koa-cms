@@ -18,7 +18,7 @@ let upload = multer({ storage: storage });
 
 router.get('/', async (ctx) => {
     let page = ctx.query.page || 1;
-    let pageSize = ctx.query.pageSize || 5;
+    let pageSize = ctx.query.pageSize || 10;
 
     let result = await DB.find('article', {}, {}, {
         page: page,
