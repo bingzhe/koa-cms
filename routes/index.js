@@ -11,13 +11,19 @@ router.use(async (ctx, next) => {
         sortJson: { 'sort': 1 }
     });
 
+    // 友情链接
+    let links = await DB.find('link', { $or: [{ 'status': 1 }, { 'status': '1' }] }, {}, {
+        sortJson: { 'sort': 1 }
+    });
+
     //系统信息
     let setting = await DB.find('setting', {});
 
     //模板引擎配置全局的变量
     ctx.state.nav = navResult;
     ctx.state.pathname = pathname;
-    ctx.state.setting=setting[0];
+    ctx.state.setting = setting[0];
+    ctx.state.links = links;
 
     await next();
 });
